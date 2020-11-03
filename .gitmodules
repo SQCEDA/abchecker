@@ -1,0 +1,8 @@
+[submodule "antlr-blockly"]
+	path = antlr-blockly
+	url = https://github.com/zhaouv/antlr-blockly.git
+	branch = master
+[submodule "sqc-painter"]
+	path = sqc-painter
+	url = https://github.com/zhaouv/sqc-painter
+	branch = master
