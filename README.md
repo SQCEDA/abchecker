@@ -18,13 +18,27 @@ airbridge检查器
 导出为解决方案  
 -一个用来做减法的gds  
 
+## 图片处理后端
+
++ https://github.com/image-size/image-size  
+npm install image-size  
+MIT License  
+
++ https://github.com/aheckmann/gm  
+npm install gm  
+MIT License  
+
++ https://github.com/imagemagick/imagemagick  
+https://imagemagick.org/download/binaries/ImageMagick-7.0.10-35-portable-Q16-x64.zip  
+derived Apache 2.0 license  
+
 ## Todo
 
 + [ ] 查找和标记图片内坐标的手段  
-  + [ ] 加载并显示大图片
+  + [x] ~~加载并显示大图片~~ 切分后的图片,直接用画图工具看图片内像素
   + [ ] 图片像素坐标计算
 
-+ [x] 标记每个设计图的区域要从哪个照片里找的约定格式
++ [x] 标记每个设计图的区域要从哪个照片里找的约定格式 <- 目前不需要了, 拼接意义上是大图片
 
 ## LICENSE
 
