@@ -18,6 +18,53 @@ airbridge检查器
 导出为解决方案  
 -一个用来做减法的gds  
 
+## 坐标转换
+
+设计图坐标 x,y 单位nm
+
+照片像素作标 m,n,p,q 
++ m,n 是第m列切片, 第n行切片
++ p,q 是到左侧和顶部的像素数
++ -> u,v = `m*width+p,n*height+q`
+
+Ax+By+C=u  
+Dx+Ey+F=v  
+
+用最小二乘法拟合出系数
+
+$$
+k=\begin{bmatrix}
+    A & B \\
+    D & E 
+  \end{bmatrix}
+,
+b=\begin{bmatrix}
+    C & 0  \\
+    0 & F
+  \end{bmatrix} 
+  \cdot
+  \begin{bmatrix}
+    1 & 1 & 1 & ...  \\
+    1 & 1 & 1 & ...
+  \end{bmatrix}
+$$
+
+$$
+m=\begin{bmatrix}
+    x_1 & x_2 & x_3 & ... \\
+    y_1 & y_2 & y_3 & ...
+  \end{bmatrix}
+,
+n=\begin{bmatrix}
+    u_1 & u_2 & u_3 & ... \\
+    v_1 & v_2 & v_3 & ...
+  \end{bmatrix}
+$$
+
+L = ||km+b-n||^2
+
+
+
 ## 图片处理后端
 
 + https://github.com/image-size/image-size  
