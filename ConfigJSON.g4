@@ -1,7 +1,7 @@
 grammar ConfigJSON;
 
 prog
-    :   '图片分支' BGNL switchPosition=switchPositionBlock BGNL
+    :   '图片分支' BGNL switchPosition=switchPositionBlock
 ;
 
 switchPositionBlock

@@ -18,6 +18,14 @@ airbridge检查器
 导出为解决方案  
 -一个用来做减法的gds  
 
+## Todo
+
++ [ ] 查找和标记图片内坐标的手段  
+  + [ ] 加载并显示大图片
+  + [ ] 图片像素坐标计算
+
++ [x] 标记每个设计图的区域要从哪个照片里找的约定格式
+
 ## LICENSE
 
 由于深刻的使用了[KLayout](https://github.com/klayoutmatthias/klayout)
