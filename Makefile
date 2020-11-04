@@ -2,7 +2,7 @@
 all: page
 
 .PHONY:page
-page:ConfigJSON.js
+page:target/ConfigJSON.js
 
-ConfigJSON.js: ConfigJSON.g4 g4tojs.js
-	node g4tojs.js
+target/ConfigJSON.js: src/ConfigJSON.g4 src/g4tojs.js
+	node ./src/g4tojs

@@ -33,6 +33,18 @@ Dx+Ey+F=v
 用最小二乘法拟合出系数
 
 $$
+m=\begin{bmatrix}
+    x_1 & x_2 & x_3 & ... \\
+    y_1 & y_2 & y_3 & ...
+  \end{bmatrix}
+,
+n=\begin{bmatrix}
+    u_1 & u_2 & u_3 & ... \\
+    v_1 & v_2 & v_3 & ...
+  \end{bmatrix}
+$$
+
+$$
 k=\begin{bmatrix}
     A & B \\
     D & E 
@@ -49,19 +61,9 @@ b=\begin{bmatrix}
   \end{bmatrix}
 $$
 
-$$
-m=\begin{bmatrix}
-    x_1 & x_2 & x_3 & ... \\
-    y_1 & y_2 & y_3 & ...
-  \end{bmatrix}
-,
-n=\begin{bmatrix}
-    u_1 & u_2 & u_3 & ... \\
-    v_1 & v_2 & v_3 & ...
-  \end{bmatrix}
-$$
+$$ L = ||k\cdot m+b-n||^2 $$
 
-L = ||km+b-n||^2
+形如 $\frac{\partial L}{\partial A} = 0$ 的6个线性方程, 由Crammer 法则解出 A~F
 
 
 
