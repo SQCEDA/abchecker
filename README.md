@@ -37,29 +37,29 @@ Dx+Ey+F=v
 $$
 m=\begin{bmatrix}
     x_1 & x_2 & x_3 & ... \\
-    y_1 & y_2 & y_3 & ...
+    y_1 & y_2 & y_3 & ... \\
   \end{bmatrix}
 ,
 n=\begin{bmatrix}
     u_1 & u_2 & u_3 & ... \\
-    v_1 & v_2 & v_3 & ...
+    v_1 & v_2 & v_3 & ... \\
   \end{bmatrix}
 $$
 
 $$
 k=\begin{bmatrix}
     A & B \\
-    D & E 
+    D & E \\
   \end{bmatrix}
 ,
 b=\begin{bmatrix}
     C & 0  \\
-    0 & F
+    0 & F  \\
   \end{bmatrix} 
   \cdot
   \begin{bmatrix}
     1 & 1 & 1 & ...  \\
-    1 & 1 & 1 & ...
+    1 & 1 & 1 & ...  \\
   \end{bmatrix}
 $$
 
@@ -77,41 +77,41 @@ $\bar{1q}$ 代表 $(\Sigma 1 \cdot q_i)/n$
 
 $$
 A=\begin{vmatrix}
-    \bar{1u} & \bar{1y} & \bar{11} \\ 
     \bar{xu} & \bar{xy} & \bar{x1} \\ 
-    \bar{yu} & \bar{yy} & \bar{y1}
+    \bar{yu} & \bar{yy} & \bar{y1} \\
+    \bar{1u} & \bar{1y} & \bar{11} \\ 
   \end{vmatrix}
   /
   \begin{vmatrix}
-    \bar{1x} & \bar{1y} & \bar{11} \\ 
     \bar{xx} & \bar{xy} & \bar{x1} \\ 
-    \bar{yx} & \bar{yy} & \bar{y1}
+    \bar{yx} & \bar{yy} & \bar{y1} \\
+    \bar{1x} & \bar{1y} & \bar{11} \\ 
   \end{vmatrix}
 $$
 $$
 B=\begin{vmatrix}
-    \bar{1x} & \bar{1u} & \bar{11} \\ 
     \bar{xx} & \bar{xu} & \bar{x1} \\ 
-    \bar{yx} & \bar{yu} & \bar{y1}
+    \bar{yx} & \bar{yu} & \bar{y1} \\
+    \bar{1x} & \bar{1u} & \bar{11} \\ 
   \end{vmatrix}
   /
   \begin{vmatrix}
-    \bar{1x} & \bar{1y} & \bar{11} \\ 
     \bar{xx} & \bar{xy} & \bar{x1} \\ 
-    \bar{yx} & \bar{yy} & \bar{y1}
+    \bar{yx} & \bar{yy} & \bar{y1} \\
+    \bar{1x} & \bar{1y} & \bar{11} \\ 
   \end{vmatrix}
 $$
 $$
 C=\begin{vmatrix}
-    \bar{1x} & \bar{1y} & \bar{1u} \\ 
     \bar{xx} & \bar{xy} & \bar{xu} \\ 
-    \bar{yx} & \bar{yy} & \bar{yu}
+    \bar{yx} & \bar{yy} & \bar{yu} \\
+    \bar{1x} & \bar{1y} & \bar{1u} \\ 
   \end{vmatrix}
   /
   \begin{vmatrix}
-    \bar{1x} & \bar{1y} & \bar{11} \\ 
     \bar{xx} & \bar{xy} & \bar{x1} \\ 
-    \bar{yx} & \bar{yy} & \bar{y1}
+    \bar{yx} & \bar{yy} & \bar{y1} \\
+    \bar{1x} & \bar{1y} & \bar{11} \\ 
   \end{vmatrix}
 $$
 
