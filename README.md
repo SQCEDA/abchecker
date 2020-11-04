@@ -27,10 +27,12 @@ airbridge检查器
 + p,q 是到左侧和顶部的像素数
 + -> u,v = `m*width+p,n*height+q`
 
+假设转换关系是
+
 Ax+By+C=u  
 Dx+Ey+F=v  
 
-用最小二乘法拟合出系数
+用最小二乘法拟合出系数:
 
 $$
 m=\begin{bmatrix}
@@ -61,11 +63,59 @@ b=\begin{bmatrix}
   \end{bmatrix}
 $$
 
-$$ L = ||k\cdot m+b-n||^2 $$
+$$
+L = \left\lVert k\cdot m+b-n \right\rVert _2^{\space \space 2}
+$$
+
+为了使 $L$ 取到最小
 
 形如 $\frac{\partial L}{\partial A} = 0$ 的6个线性方程, 由Crammer 法则解出 A~F
 
+用 $\bar{pq}$ 代表 $(\Sigma p_i q_i)/n$, 
+$\bar{p1}$ 代表 $(\Sigma p_i \cdot 1)/n$, 
+$\bar{1q}$ 代表 $(\Sigma 1 \cdot q_i)/n$
 
+$$
+A=\begin{vmatrix}
+    \bar{1u} & \bar{1y} & \bar{11} \\ 
+    \bar{xu} & \bar{xy} & \bar{x1} \\ 
+    \bar{yu} & \bar{yy} & \bar{y1}
+  \end{vmatrix}
+  /
+  \begin{vmatrix}
+    \bar{1x} & \bar{1y} & \bar{11} \\ 
+    \bar{xx} & \bar{xy} & \bar{x1} \\ 
+    \bar{yx} & \bar{yy} & \bar{y1}
+  \end{vmatrix}
+$$
+$$
+B=\begin{vmatrix}
+    \bar{1x} & \bar{1u} & \bar{11} \\ 
+    \bar{xx} & \bar{xu} & \bar{x1} \\ 
+    \bar{yx} & \bar{yu} & \bar{y1}
+  \end{vmatrix}
+  /
+  \begin{vmatrix}
+    \bar{1x} & \bar{1y} & \bar{11} \\ 
+    \bar{xx} & \bar{xy} & \bar{x1} \\ 
+    \bar{yx} & \bar{yy} & \bar{y1}
+  \end{vmatrix}
+$$
+$$
+C=\begin{vmatrix}
+    \bar{1x} & \bar{1y} & \bar{1u} \\ 
+    \bar{xx} & \bar{xy} & \bar{xu} \\ 
+    \bar{yx} & \bar{yy} & \bar{yu}
+  \end{vmatrix}
+  /
+  \begin{vmatrix}
+    \bar{1x} & \bar{1y} & \bar{11} \\ 
+    \bar{xx} & \bar{xy} & \bar{x1} \\ 
+    \bar{yx} & \bar{yy} & \bar{y1}
+  \end{vmatrix}
+$$
+
+DEF同理,把$\bar{*u}$换成$\bar{*v}$
 
 ## 图片处理后端
 
