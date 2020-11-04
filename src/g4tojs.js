@@ -38,6 +38,6 @@ converter.html.bodyScripts_keepGrammar = `
 `
 
 fs.writeFileSync('blockly.html', converter.html.text(), { encoding: 'utf8' })
-fs.writeFileSync('target/'+converter.js._name, converter.js.text(), { encoding: 'utf8' })
+fs.writeFileSync('target/' + converter.js._name, converter.js.text(), { encoding: 'utf8' })
 
 
