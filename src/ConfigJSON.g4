@@ -53,4 +53,8 @@ MeaningfulSplit : '=== meaningful ^ ===' ;
 ConfigJSONBlocks.switchPositionBlock.json.nextStatement=undefined;
 ConfigJSONBlocks.ifAction.json.nextStatement=undefined;
 ConfigJSONBlocks.returnAction.json.nextStatement=undefined;
+
+setTimeout(() => {
+    window.blocklyInitDone?blocklyInitDone():0
+}, 0);
 */

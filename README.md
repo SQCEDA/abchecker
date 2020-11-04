@@ -32,7 +32,7 @@ airbridge检查器
 Ax+By+C=u  
 Dx+Ey+F=v  
 
-用最小二乘法拟合出系数:
+用最小二乘法计算出系数:
 
 $$
 m=\begin{bmatrix}
@@ -88,6 +88,7 @@ A=\begin{vmatrix}
     \bar{1x} & \bar{1y} & \bar{11} \\ 
   \end{vmatrix}
 $$
+
 $$
 B=\begin{vmatrix}
     \bar{xx} & \bar{xu} & \bar{x1} \\ 
@@ -101,6 +102,7 @@ B=\begin{vmatrix}
     \bar{1x} & \bar{1y} & \bar{11} \\ 
   \end{vmatrix}
 $$
+
 $$
 C=\begin{vmatrix}
     \bar{xx} & \bar{xy} & \bar{xu} \\ 
@@ -133,9 +135,13 @@ derived Apache 2.0 license
 
 ## Todo
 
-+ [ ] 查找和标记图片内坐标的手段  
++ [ ] 给配置和坐标转化搭建后端
+
++ [x] 在页面上能缓存输入
+
++ [x] 查找和标记图片内坐标的手段  
   + [x] ~~加载并显示大图片~~ 切分后的图片,直接用画图工具看图片内像素
-  + [ ] 图片像素坐标计算
+  + [x] 图片像素坐标计算的公式推导
 
 + [x] 标记每个设计图的区域要从哪个照片里找的约定格式
 

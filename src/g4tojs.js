@@ -23,7 +23,7 @@ let option = {
     },
     "codeArea": {
         "type": "codeAreaStatement",
-        "output": "function(err,data){document.getElementById('codeArea').innerText=err?String(err):data}"
+        "output": "function(err,data){window.setBlocklyOutput?setBlocklyOutput(err,data):document.getElementById('codeArea').innerText=err?String(err):data}"
     },
     "target": {
         // "type": "independentFile"
@@ -34,6 +34,7 @@ let converter = Converter.withOption(grammarFile, option)
 
 converter.html.bodyScripts_keepGrammar = `
 <script src="antlr-blockly/Converter.bundle.min.js"></script>
+<script src="src/page.js"></script>
 <script src="target/ConfigJSON.js"></script>
 `
 
