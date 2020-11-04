@@ -69,7 +69,7 @@ $$
 
 为了使 $L$ 取到最小
 
-形如 $\frac{\partial L}{\partial A} = 0$ 的6个线性方程, 由Crammer 法则解出 A~F
+形如 $\frac{\partial L}{\partial A} = 0$ 的6个线性方程, 由 Crammer 法则解出 A~F
 
 用 $\bar{pq}$ 代表 $(\Sigma p_i q_i)/n$, 
 $\bar{p1}$ 代表 $(\Sigma p_i \cdot 1)/n$, 
