@@ -1,8 +1,17 @@
 grammar ConfigJSON;
 
 prog
-    :   '图片分支' BGNL switchPosition=switchPositionBlock
-;
+    :   '图片信息' BGNL imageInformation=imageInformationBlock+
+        '图片分支' BGNL switchPosition=switchPositionBlock
+    ;
+
+imageInformationBlock
+    :   '目录' dir=NormalString BGNL
+        '配置文件(填好目录后右键菜单点生成配置文件)' config=NormalString
+/* imageInformationBlock
+menu:[['生成配置文件','alert("生成配置文件-功能尚未实现")']]
+*/
+    ;
 
 switchPositionBlock
     :   '使用 x,y 代表设计图内坐标, 按照分支进入指定图片' BGNL
@@ -28,7 +37,7 @@ conditionExpr
 /* valueConditionExpr
 default : ['x >= 0']
 */
-;
+    ;
 
 NormalString: ('asdsaw'+)*;
 OP_List:    'and'|'or' ;
