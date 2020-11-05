@@ -55,3 +55,7 @@ exports.solve = function (x, y, u, v) {
     let F = det3([_xx, _xy, _xv, _yx, _yy, _yv, _1x, _1y, _1v,]) / G
     return { A, B, C, D, E, F, G }
 }
+
+exports.getPixelPositionFromNMPQ = function (m, n, p, q, width, height) {
+    return [m-1]
+}
