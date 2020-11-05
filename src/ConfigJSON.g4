@@ -1,10 +1,14 @@
 grammar ConfigJSON;
 
 prog
-    :   '工作路径(一些辅助信息将存在这里)' workDir=NormalString BGNL
+    :   '工作路径(一些配置信息将存在这里)' workDir=NormalString BGNL
+        '辅助信息完整时可以只填工作路径并右键点加载配置' BGNL
         '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
         '图片信息' BGNL imageInformation=imageInformationBlock+
         '图片分支' BGNL switchPosition=switchPositionBlock
+/* prog
+menu:[['加载配置','window.loadConfig?loadConfig(block):0']]
+*/
     ;
 
 imageInformationBlock
@@ -12,7 +16,7 @@ imageInformationBlock
         '坐标转换' BGNL positionTransfrom=positionTransfromBlock
         '配置文件(填好目录和坐标转换后右键点生成配置文件)' config=NormalString
 /* imageInformationBlock
-menu:[['生成配置文件','alert("生成配置文件-功能尚未实现")']]
+menu:[['生成配置文件','window.generateConfigFile?generateConfigFile(block):0']]
 */
     ;
 
@@ -27,7 +31,7 @@ default:['0','0','0','0','0','0']
     ;
 
 positionPairBlock
-    :   'm' m=NormalString 'n' n=NormalString 'p' p=NormalString 'q' q=NormalString '<->' 'x' x=NormalString 'y' y=NormalString 
+    :   'm' m=MinusInt 'n' n=MinusInt 'p' p=MinusInt 'q' q=MinusInt '<->' 'x' x=MinusInt 'y' y=MinusInt 
 /* positionPairBlock
 default:['1','1','0','0','0','0']
 */
@@ -63,6 +67,7 @@ NormalString: ('asdsaw'+)*;
 OP_List:    'and'|'or' ;
 
 Int :   [0-9]+ ;
+MinusInt:   'asfvaswvr'* 'asdvaswvr'? ;
 Bool:   'true'|'false' ;
 Colour:   'asdfgdh'* ;
 BGNL:   'asfvaswvr'? 'asdvaswvr'? ;
