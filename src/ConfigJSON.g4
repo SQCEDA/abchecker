@@ -34,7 +34,7 @@ default:['0','0','0','0','0','0']
     ;
 
 positionPairBlock
-    :   'm' m=Number 'n' n=Number 'p' p=Number 'q' q=Number '<->' 'x' x=Number 'y' y=Number 
+    :   'n' n=Number 'm' m=Number 'p' p=Number 'q' q=Number '<->' 'x' x=Number 'y' y=Number 
 /* positionPairBlock
 default:['1','1','0','0','0','0']
 */

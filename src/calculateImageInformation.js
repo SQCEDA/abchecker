@@ -4,7 +4,7 @@ const fs = require('fs')
 
 function processOneDir(data, workDir, imageInformationBlock, index) {
     const { width, height, col, row, files } = getImageInformationFromDir(imageInformationBlock.dir)
-    let output = { files, col, row }
+    let output = { files, width, height, col, row }
     let config = workDir + '/' + imageInformationBlock.config + '.json'
     if (imageInformationBlock.positionTransfrom.type === 'positionPairs') {
         let x, y, u, v, m, n, p, q;
