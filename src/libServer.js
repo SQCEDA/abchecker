@@ -47,6 +47,25 @@ exports.startServer = function (root, port) {
             var urlstr = request.url;
             if (urlstr === '/') {
                 console.log(urlstr, body);
+                response.writeHead(200);
+                response.end('ret');
+                return
+            }
+            if (urlstr === '/savefile') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                fs.writeFileSync(data.path,data.content,{encoding:'utf8'})
+                response.writeHead(200);
+                response.end('write done');
+                return
+            }
+            if (urlstr === '/loadfile') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = fs.readFileSync(data.path,{encoding:'utf8'})
+                response.writeHead(200);
+                response.end(content);
+                return
             }
             response.writeHead(200);
             response.end('no service this url');
