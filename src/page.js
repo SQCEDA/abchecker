@@ -75,7 +75,8 @@ function saveConfig() {
     console.log(ret);
 }
 
-function generateConfigFile(block) {
-    alert("生成配置文件-功能尚未实现")
-    block.setFieldValue('123','config')
+function calculateImageInformation() {
+    let data=g.data
+    let ret = xhrPostSync('/calculateImageInformation',JSON.stringify(data))
+    console.log(ret);
 }

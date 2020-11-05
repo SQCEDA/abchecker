@@ -67,6 +67,14 @@ exports.startServer = function (root, port) {
                 response.end(content);
                 return
             }
+            if (urlstr === '/calculateImageInformation') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = '123123'
+                response.writeHead(200);
+                response.end(content);
+                return
+            }
             response.writeHead(200);
             response.end('no service this url');
         })

@@ -2,38 +2,39 @@ grammar ConfigJSON;
 
 prog
     :   '工作路径(一些配置信息将存在这里)' workDir=NormalString BGNL
-        '配置已存在时可以只填工作路径并右键点加载配置' BGNL
-        '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
+        '>配置已存在时可以只填工作路径并右键点加载配置' BGNL
         '图片信息' BGNL imageInformation=imageInformationBlock+
+        '>图片信息填完后右键计算图片信息' BGNL
         '图片分支' BGNL switchPosition=switchPositionBlock
+        '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
 /* prog
-menu:[['保存配置','window.saveConfig?saveConfig(block):0'],['-',''],['加载配置','window.loadConfig?loadConfig(block):0']]
+menu:[['加载配置','window.loadConfig?loadConfig(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],]
 */
     ;
 
 imageInformationBlock
-    :   '目录(不能包含照片外的文件和路径)' dir=NormalString BGNL
+    :   '目录(目录内不能包含照片外的文件和路径)' dir=NormalString BGNL
         '配置文件名(建议取目录的最后一级)' config=NormalString BGNL
         '坐标转换' BGNL positionTransfrom=positionTransfromBlock
-        '(填好 目录/配置文件名/坐标组 后右键点生成配置文件)'
-/* imageInformationBlock
-menu:[['生成配置文件','window.generateConfigFile?generateConfigFile(block):0']]
-*/
     ;
 
 positionTransfromBlock
-    :   '转换参数' 'A' A=NormalString 'B' B=NormalString 'C' C=NormalString 'D' D=NormalString 'E' E=NormalString 'F' F=NormalString
+    :   '转换参数' 'A' A=Number 'B' B=Number 'C' C=Number 'D' D=Number 'E' E=Number 'F' F=Number
     # transfromArgs
 /* transfromArgs
 default:['0','0','0','0','0','0']
 */
-    |   '坐标组' BGNL positionPair=positionPairBlock+
-        '计算结果' BGNL positionTransfrom=transfromArgs
+    |   '坐标组' BGNL
+        '设计图坐标 x,y 单位纳米' BGNL
+        '照片像素作标 m,n,p,q' BGNL
+        'm,n 是第m列切片, 第n行切片' BGNL
+        'p,q 是到左侧和顶部的像素数' BGNL
+        positionPair=positionPairBlock+
     # positionPairs
     ;
 
 positionPairBlock
-    :   'm' m=MinusInt 'n' n=MinusInt 'p' p=MinusInt 'q' q=MinusInt '<->' 'x' x=MinusInt 'y' y=MinusInt 
+    :   'm' m=Number 'n' n=Number 'p' p=Number 'q' q=Number '<->' 'x' x=Number 'y' y=Number 
 /* positionPairBlock
 default:['1','1','0','0','0','0']
 */
@@ -69,7 +70,7 @@ NormalString: ('asdsaw'+)*;
 OP_List:    'and'|'or' ;
 
 Int :   [0-9]+ ;
-MinusInt:   'asfvaswvr'* 'asdvaswvr'? ;
+Number:   'asfvaswvr'* 'asdvaswvr'? ;
 Bool:   'true'|'false' ;
 Colour:   'asdfgdh'* ;
 BGNL:   'asfvaswvr'? 'asdvaswvr'? ;
