@@ -57,5 +57,18 @@ exports.solve = function (x, y, u, v) {
 }
 
 exports.getPixelPositionFromNMPQ = function (m, n, p, q, width, height) {
-    return [m-1]
+    return [(m - 1) * width + p, (n - 1) * height + q]
+}
+
+function getMUFromX(x, y, A, B, C, width) {
+    let u = A * x + B * y + C
+    let m = Math.floor(u / width)
+    let p = u - m * width
+    return [m + 1, p]
+}
+
+exports.getPixelPositionFromXY = function (x, y, A, B, C, D, E, F, width, height) {
+    let [m, p] = getMUFromX(x, y, A, B, C, width)
+    let [n, q] = getMUFromX(x, y, D, E, F, height)
+    return [m, n, p, q]
 }
