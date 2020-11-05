@@ -2,19 +2,20 @@ grammar ConfigJSON;
 
 prog
     :   '工作路径(一些配置信息将存在这里)' workDir=NormalString BGNL
-        '辅助信息完整时可以只填工作路径并右键点加载配置' BGNL
+        '配置已存在时可以只填工作路径并右键点加载配置' BGNL
         '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
         '图片信息' BGNL imageInformation=imageInformationBlock+
         '图片分支' BGNL switchPosition=switchPositionBlock
 /* prog
-menu:[['加载配置','window.loadConfig?loadConfig(block):0']]
+menu:[['保存配置','window.saveConfig?saveConfig(block):0'],['-',''],['加载配置','window.loadConfig?loadConfig(block):0']]
 */
     ;
 
 imageInformationBlock
     :   '目录(不能包含照片外的文件和路径)' dir=NormalString BGNL
+        '配置文件名(建议取目录的最后一级)' config=NormalString BGNL
         '坐标转换' BGNL positionTransfrom=positionTransfromBlock
-        '配置文件(填好目录和坐标转换后右键点生成配置文件)' config=NormalString
+        '(填好 目录/配置文件名/坐标组 后右键点生成配置文件)'
 /* imageInformationBlock
 menu:[['生成配置文件','window.generateConfigFile?generateConfigFile(block):0']]
 */
@@ -27,6 +28,7 @@ positionTransfromBlock
 default:['0','0','0','0','0','0']
 */
     |   '坐标组' BGNL positionPair=positionPairBlock+
+        '计算结果' BGNL positionTransfrom=transfromArgs
     # positionPairs
     ;
 
