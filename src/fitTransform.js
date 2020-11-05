@@ -56,7 +56,7 @@ exports.solve = function (x, y, u, v) {
     return { A, B, C, D, E, F, G }
 }
 
-exports.getPixelPositionFromNMPQ = function (m, n, p, q, width, height) {
+exports.getPixelPositionFromMNPQ = function (m, n, p, q, width, height) {
     return [(m - 1) * width + p, (n - 1) * height + q]
 }
 
