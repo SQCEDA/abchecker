@@ -67,7 +67,7 @@ function getMUFromX(x, y, A, B, C, width) {
     return [m + 1, p]
 }
 
-exports.getPixelPositionFromXY = function (x, y, A, B, C, D, E, F, width, height) {
+exports.getMNPQFromXY = function (x, y, A, B, C, D, E, F, width, height) {
     let [m, p] = getMUFromX(x, y, A, B, C, width)
     let [n, q] = getMUFromX(x, y, D, E, F, height)
     return [m, n, p, q]
