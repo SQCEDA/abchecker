@@ -21,7 +21,7 @@ exports.getImageInformationFromDir = function (dir) {
     }
 
     const dimensions = sizeOf(files[0]);
-    console.log(files);
+    // console.log(files);
     console.log(files.length);
     console.log(dimensions);
     return {

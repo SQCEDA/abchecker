@@ -16,7 +16,7 @@ function avg1(p) {
         return p
     }
     const sum = p.reduce((a, b) => a + b, 0);
-    const avg = (sum / p.length) || 0;
+    return (sum / p.length) || 0;
 }
 
 function avg2(p, q) {

@@ -2,6 +2,7 @@ const fs = require('fs')
 const http = require('http')
 const url = require('url')
 const path = require('path')
+const { calculate } = require('./calculateImageInformation')
 
 // const root = path.resolve('.');
 // var port = 14762
@@ -54,7 +55,7 @@ exports.startServer = function (root, port) {
             if (urlstr === '/savefile') {
                 console.log(urlstr, body);
                 let data = JSON.parse(body)
-                fs.writeFileSync(data.path,data.content,{encoding:'utf8'})
+                fs.writeFileSync(data.path, data.content, { encoding: 'utf8' })
                 response.writeHead(200);
                 response.end('write done');
                 return
@@ -62,7 +63,7 @@ exports.startServer = function (root, port) {
             if (urlstr === '/loadfile') {
                 console.log(urlstr, body);
                 let data = JSON.parse(body)
-                let content = fs.readFileSync(data.path,{encoding:'utf8'})
+                let content = fs.readFileSync(data.path, { encoding: 'utf8' })
                 response.writeHead(200);
                 response.end(content);
                 return
@@ -70,9 +71,9 @@ exports.startServer = function (root, port) {
             if (urlstr === '/calculateImageInformation') {
                 console.log(urlstr, body);
                 let data = JSON.parse(body)
-                let content = '123123'
+                let content = calculate(data)
                 response.writeHead(200);
-                response.end(content);
+                response.end(JSON.stringify(content.length));
                 return
             }
             response.writeHead(200);
