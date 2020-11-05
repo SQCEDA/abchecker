@@ -3,6 +3,7 @@ const http = require('http')
 const url = require('url')
 const path = require('path')
 const { calculate } = require('./calculateImageInformation')
+const { test } = require('./test')
 
 // const root = path.resolve('.');
 // var port = 14762
@@ -50,6 +51,14 @@ exports.startServer = function (root, port) {
                 console.log(urlstr, body);
                 response.writeHead(200);
                 response.end('ret');
+                return
+            }
+            if (urlstr === '/test') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = test(data)
+                response.writeHead(200);
+                response.end(JSON.stringify(content));
                 return
             }
             if (urlstr === '/savefile') {

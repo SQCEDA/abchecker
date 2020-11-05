@@ -80,3 +80,9 @@ function calculateImageInformation() {
     let ret = xhrPostSync('/calculateImageInformation',JSON.stringify(data))
     console.log(ret);
 }
+
+function testFunction(block) {
+    let data=g.data
+    let ret = xhrPostSync('/test',JSON.stringify(data))
+    console.log(ret);
+}
