@@ -1,15 +1,35 @@
 grammar ConfigJSON;
 
 prog
-    :   '图片信息' BGNL imageInformation=imageInformationBlock+
+    :   '工作路径(一些辅助信息将存在这里)' workDir=NormalString BGNL
+        '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
+        '图片信息' BGNL imageInformation=imageInformationBlock+
         '图片分支' BGNL switchPosition=switchPositionBlock
     ;
 
 imageInformationBlock
-    :   '目录' dir=NormalString BGNL
-        '配置文件(填好目录后右键菜单点生成配置文件)' config=NormalString
+    :   '目录(不能包含照片外的文件和路径)' dir=NormalString BGNL
+        '坐标转换' BGNL positionTransfrom=positionTransfromBlock
+        '配置文件(填好目录和坐标转换后右键点生成配置文件)' config=NormalString
 /* imageInformationBlock
 menu:[['生成配置文件','alert("生成配置文件-功能尚未实现")']]
+*/
+    ;
+
+positionTransfromBlock
+    :   '转换参数' 'A' A=NormalString 'B' B=NormalString 'C' C=NormalString 'D' D=NormalString 'E' E=NormalString 'F' F=NormalString
+    # transfromArgs
+/* transfromArgs
+default:['0','0','0','0','0','0']
+*/
+    |   '坐标组' BGNL positionPair=positionPairBlock+
+    # positionPairs
+    ;
+
+positionPairBlock
+    :   'm' m=NormalString 'n' n=NormalString 'p' p=NormalString 'q' q=NormalString '<->' 'x' x=NormalString 'y' y=NormalString 
+/* positionPairBlock
+default:['1','1','0','0','0','0']
 */
     ;
 
@@ -50,11 +70,18 @@ BGNL:   'asfvaswvr'? 'asdvaswvr'? ;
 MeaningfulSplit : '=== meaningful ^ ===' ;
 
 /* Insert_FunctionStart
-ConfigJSONBlocks.switchPositionBlock.json.nextStatement=undefined;
-ConfigJSONBlocks.ifAction.json.nextStatement=undefined;
-ConfigJSONBlocks.returnAction.json.nextStatement=undefined;
+var endBlocks=[
+    "switchPositionBlock",
+    "ifAction",
+    "returnAction",
+    "transfromArgs",
+    "positionPairs",
+]
+endBlocks.forEach(blockname => {
+    ConfigJSONBlocks[blockname].json.nextStatement=undefined
+})
 
 setTimeout(() => {
     window.blocklyInitDone?blocklyInitDone():0
-}, 0);
+}, 0)
 */

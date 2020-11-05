@@ -2,7 +2,7 @@ const fs = require('fs');
 const sizeOf = require('image-size');
 
 exports.getImageInformationFromDir = function (dir) {
-    dir = dir.endsWith('/') ? dir : dir + '/';
+    dir = dir.endsWith('/')||dir.endsWith('\\') ? dir : dir + '/';
     let files = fs.readdirSync(dir);
     files = files.map((item) => {
         return item = dir + item;
