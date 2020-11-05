@@ -5,6 +5,9 @@ prog
         '>配置已存在时可以只填工作路径并右键点加载配置' BGNL
         '图片信息' BGNL imageInformation=imageInformationBlock+
         '>图片信息填完后右键计算图片信息' BGNL
+        'GDS路径' gdsPath=NormalString BGNL
+        'KLayout路径' klayoutPath=NormalString BGNL
+        '>从GDS提取AB的位置角度' BGNL
         '图片分支' BGNL switchPosition=switchPositionBlock
         '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
 /* prog
