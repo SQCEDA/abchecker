@@ -1,0 +1,1 @@
+@set path=%~dp0im;%path% && code .
