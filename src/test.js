@@ -1,7 +1,7 @@
 
 function test1(data) {
     const fs = require('fs')
-    const { getMNPQFromXY } = require('./fitTransform')
+    const { getMNPQFromXY } = require('./transform')
     let workDir = data.workDir
     let pic1Obj = data.imageInformation[0]
     let pic1Config = JSON.parse(fs.readFileSync(workDir + '/' + pic1Obj.config + '.json', { encoding: 'utf8' }))

@@ -1,4 +1,4 @@
-const { solve, getPixelPositionFromMNPQ } = require('./fitTransform')
+const { solve, getPixelPositionFromMNPQ } = require('./transform')
 const { getImageInformationFromDir } = require('./imageInformation')
 const fs = require('fs')
 
