@@ -71,7 +71,7 @@ function loadConfig(block) {
 function saveConfig() {
     let data=g.data
     let dir = data.workDir
-    let ret = xhrPostSync('/savefile',JSON.stringify({path:dir+'/config.json',content:JSON.stringify(data)}))
+    let ret = xhrPostSync('/savefile',JSON.stringify({path:dir+'/config.json',content:JSON.stringify(data,null,4)}))
     console.log(ret);
 }
 

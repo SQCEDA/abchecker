@@ -1,3 +1,4 @@
+if (typeof exports === 'undefined') this.exports = {}
 
 function det3(mat) {
     if (mat.length === 9) {
@@ -29,7 +30,6 @@ function avg2(p, q) {
     return p.reduce(function (r, a, i) { return r + a * q[i] }, 0) / p.length
 }
 
-if (typeof exports === 'undefined') this.exports = {}
 exports.solve = function (x, y, u, v) {
     let _11 = avg2(1, 1)
     let _x1 = avg2(x, 1)
@@ -67,8 +67,9 @@ function getMUFromX(x, y, A, B, C, width) {
     return [m + 1, p]
 }
 
-exports.getMNPQFromXY = function (x, y, A, B, C, D, E, F, width, height) {
+function getMNPQFromXY(x, y, A, B, C, D, E, F, width, height) {
     let [m, p] = getMUFromX(x, y, A, B, C, width)
     let [n, q] = getMUFromX(x, y, D, E, F, height)
     return [m, n, p, q]
 }
+exports.getMNPQFromXY = getMNPQFromXY
