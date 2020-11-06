@@ -3,6 +3,8 @@ const http = require('http')
 const url = require('url')
 const path = require('path')
 const { calculate } = require('./calculateImageInformation')
+const { extractABFromGDS } = require('./execGDSScripts')
+
 const { test } = require('./test')
 
 // const root = path.resolve('.');
@@ -83,6 +85,14 @@ exports.startServer = function (root, port) {
                 let content = calculate(data)
                 response.writeHead(200);
                 response.end(JSON.stringify(content.length));
+                return
+            }
+            if (urlstr === '/extractABFromGDS') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = extractABFromGDS(data)
+                response.writeHead(200);
+                response.end(content);
                 return
             }
             response.writeHead(200);

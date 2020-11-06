@@ -7,11 +7,13 @@ prog
         '>图片信息填完后右键计算图片信息' BGNL
         'GDS路径' gdsPath=NormalString BGNL
         'KLayout路径' klayoutPath=NormalString BGNL
-        '>从GDS提取AB的位置角度' BGNL
+        'ABWidth' ABWidth=Number BGNL
+        'ABHeight' ABHeight=Number BGNL
+        '>右键点从GDS提取AB' BGNL
         '图片分支' BGNL switchPosition=switchPositionBlock
         '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
 /* prog
-menu:[['test','window.testFunction?testFunction(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['加载配置','window.loadConfig?loadConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],]
+menu:[['test','window.testFunction?testFunction(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['加载配置','window.loadConfig?loadConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],['从GDS提取AB','window.extractABFromGDS?extractABFromGDS(block):0'],]
 */
     ;
 

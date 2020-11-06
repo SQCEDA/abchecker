@@ -81,6 +81,12 @@ function calculateImageInformation() {
     console.log(ret);
 }
 
+function extractABFromGDS() {
+    let data=g.data
+    let ret = xhrPostSync('/extractABFromGDS',JSON.stringify(data))
+    console.log(ret);
+}
+
 function testFunction(block) {
     let data=g.data
     let ret = xhrPostSync('/test',JSON.stringify(data))

@@ -14,9 +14,17 @@ function test1(data) {
     ]
 }
 
+function test2(data) {
+    const { extractABFromGDS } = require('./execGDSScripts')
+    console.log('run extractABFromGDS');
+    let ret = extractABFromGDS(data)
+    console.log(ret);
+    return ret
+}
+
 
 if (typeof exports === 'undefined') this.exports = {}
 exports.test = function (data) {
 
-    return test1(data)
+    return test2(data)
 }
