@@ -12,8 +12,10 @@ exports.test = function (data) {
 
     function testgm() {
         
+        // 旋转后的尺寸飘动了2~3像素
         gm(img).rotate('black', 45).write(pictureOutputDir + '/test1.jpg', (err) => { if (!err) console.log('done') });
     
+        // 截取
         gm(img).crop(cutPixelSize, cutPixelSize, 100, 50).write(pictureOutputDir + '/test2.jpg', (err) => { if (!err) console.log('done') });
     
         // appends another.jpg to img.png from top-to-bottom
@@ -22,6 +24,7 @@ exports.test = function (data) {
         let a1 = gm(files[0]).append(files[1], true)
         let a2 = gm(files[col]).append(files[col + 1], true)
         a1.append(a2).write(pictureOutputDir + '/test3.jpg', (err) => { if (!err) console.log('done') });
+        // 2*2的拼接必须要存两个中间文件来实现
     }
     testgm()
 
@@ -29,6 +32,6 @@ exports.test = function (data) {
         
     }
     testsharp()
-    
+
     return [img]
 }
