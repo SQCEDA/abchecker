@@ -19,6 +19,7 @@
   "homepage": "https://github.com/SQCEDA/abchecker#readme",
   "dependencies": {
     "gm": "^1.23.1",
-    "image-size": "^0.9.3"
+    "image-size": "^0.9.3",
+    "sharp": "^0.26.2"
   }
 }
