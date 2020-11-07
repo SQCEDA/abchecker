@@ -22,9 +22,15 @@ function test2(data) {
     return ret
 }
 
+function test3(data) {
+    const { test } = require('./pictureProcessing')
+    let ret = test(data)
+    console.log(ret);
+    return ret
+}
 
 if (typeof exports === 'undefined') this.exports = {}
 exports.test = function (data) {
 
-    return test2(data)
+    return test3(data)
 }

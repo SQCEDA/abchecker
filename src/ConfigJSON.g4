@@ -10,6 +10,7 @@ prog
         'ABWidth' ABWidth=Number BGNL
         'ABHeight' ABHeight=Number BGNL
         '>右键点从GDS提取AB' BGNL
+        '切图像素尺寸' cutPixelSize=Number BGNL
         '图片分支' BGNL switchPosition=switchPositionBlock
         '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
 /* prog

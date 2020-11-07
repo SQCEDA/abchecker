@@ -18,6 +18,10 @@ airbridge检查器
 导出为解决方案  
 -一个用来做减法的gds  
 
+**更改**
+
+切图时不旋转, 展示时旋转
+
 ## 坐标转换
 
 设计图坐标 x,y 单位纳米
@@ -134,6 +138,12 @@ MIT License
 + https://github.com/imagemagick/imagemagick  
 https://imagemagick.org/download/binaries/ImageMagick-7.0.10-35-portable-Q16-x64.zip  
 derived Apache 2.0 license  
+
+gm的接口不是很友善, 考虑换到sharp
+
++ https://github.com/lovell/sharp  
+npm install sharp  
+Apache License, Version 2.0  
 
 ## Todo
 
