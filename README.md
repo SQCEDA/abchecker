@@ -137,6 +137,8 @@ MIT License
 
 + https://github.com/imagemagick/imagemagick  
 https://imagemagick.org/download/binaries/ImageMagick-7.0.10-35-portable-Q16-x64.zip  
+7z x ImageMagick*.zip -oim
+> apt install imagemagick # for linux
 derived Apache 2.0 license  
 
 gm的接口不是很友善, 考虑换到sharp  
