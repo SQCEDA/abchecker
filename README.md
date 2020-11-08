@@ -139,7 +139,8 @@ MIT License
 https://imagemagick.org/download/binaries/ImageMagick-7.0.10-35-portable-Q16-x64.zip  
 derived Apache 2.0 license  
 
-gm的接口不是很友善, 考虑换到sharp
+gm的接口不是很友善, 考虑换到sharp  
+sharp直接安装还失败了一次, 或者是先不在gm拼接在网页端完成拼接和旋转
 
 + https://github.com/lovell/sharp  
 npm install sharp  
