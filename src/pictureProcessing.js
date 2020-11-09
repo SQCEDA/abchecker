@@ -3,7 +3,13 @@ const fs = require('fs')
 // const sharp = require('sharp');
 // gm('img.png').crop(width, height, x, y)
 
-exports.test = function testlib(data) {
+exports.test = function (data) {
+    // return testlib(data)
+    return testExtractFirstAB(data)
+}
+
+
+function testlib(data) {
     let { workDir, pictureOutputDir, cutPixelSize } = data
     let pic1Obj = data.imageInformation[0]
     let pic1Config = JSON.parse(fs.readFileSync(workDir + '/' + pic1Obj.config + '.json', { encoding: 'utf8' }))
@@ -48,7 +54,13 @@ function emptycb(err) {
 }
 
 function mntoi(m, n, row, col) {
-    return m * col + n
+    return (m-1) * col + (n-1)
+}
+
+function collectPicConfigs(data) {
+    let { workDir } = data
+    let picConfigs = data.imageInformation.map(pic1Obj => JSON.parse(fs.readFileSync(workDir + '/' + pic1Obj.config + '.json', { encoding: 'utf8' })))
+    return picConfigs
 }
 
 function extractOneAB(abinfo, outputPrefix, data, picConfigs) {
@@ -64,4 +76,19 @@ function extractOneAB(abinfo, outputPrefix, data, picConfigs) {
         let img = files[imgI]
         gm(img).crop(w, h, p, q).write(`${pictureOutputDir}/${outputPrefix}-F.jpg`, emptycb);
     }
+
+    if (mnpqwh.length + mnpqwh[0].length === 3) {
+        throw 'unfinished'
+    }
+
+    if (mnpqwh.length + mnpqwh[0].length === 4) {
+        throw 'unfinished'
+    }
+}
+
+function testExtractFirstAB(data) {
+    let picConfigs = collectPicConfigs(data)
+    let abinfo = {imageGroup:1,mnpqwh:[[{ m:1, n:1, p:100, q:50, w:80, h:100 }]]}
+    extractOneAB(abinfo, 'testExtractFirstAB', data, picConfigs)
+    return 'done'
 }
