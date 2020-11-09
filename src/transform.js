@@ -74,12 +74,13 @@ function getMNPQFromXY(x, y, A, B, C, D, E, F, width, height) {
 }
 exports.getMNPQFromXY = getMNPQFromXY
 
-function getMNPQWHFromXY(x, y, A, B, C, D, E, F, width, height, toW, toH) {
-    let [m, n, p, q] = getMNPQFromXY(x, y, A, B, C, D, E, F, width, height)
-    let w1 = Math.ceil(toW / 2)
-    let h1 = Math.ceil(toH / 2)
-    let w2 = toW -w1
-    let h2 = toH -h1
+function extendMNPQ(m, n, p, q, width, height, toW, toH) {
+    p = Math.floor(p)
+    q = Math.floor(q)
+    let w1 = Math.floor(toW / 2)
+    let h1 = Math.floor(toH / 2)
+    let w2 = toW - w1
+    let h2 = toH - h1
     let pts = [
         [m, n, p - w1, q - h1],
         [m, n, p + w2, q - h1],
@@ -88,39 +89,39 @@ function getMNPQWHFromXY(x, y, A, B, C, D, E, F, width, height, toW, toH) {
     ]
     pts = pts.map(v => {
         let [m, n, p, q] = v
-        p<0?(p+=width,m--):0
-        p>=width?(p-=width,m++):0
-        q<0?(q+=height,n--):0
-        q>=height?(q-=height,n++):0
-        return {m,n,p,q}
+        p < 0 ? (p += width, m--) : 0
+        p >= width ? (p -= width, m++) : 0
+        q < 0 ? (q += height, n--) : 0
+        q >= height ? (q -= height, n++) : 0
+        return { m, n, p, q }
     })
 
-    if (pts[0].m===pts[3].m && pts[0].n===pts[3].n) {
-        return [[Object.assign(pts[0],{w:toW,h:toH})]]
+    if (pts[0].m === pts[3].m && pts[0].n === pts[3].n) {
+        return [[Object.assign(pts[0], { w: toW, h: toH })]]
     }
-    if (pts[0].m!==pts[3].m && pts[0].n===pts[3].n) {
+    if (pts[0].m !== pts[3].m && pts[0].n === pts[3].n) {
         return [[
-            Object.assign(pts[0],{w:width-pts[0].p,h:toH}),
-            Object.assign(pts[1],{w:pts[1].p,h:toH,p:0}),
+            Object.assign(pts[0], { w: width - pts[0].p, h: toH }),
+            Object.assign(pts[1], { w: pts[1].p, h: toH, p: 0 }),
         ]]
     }
-    if (pts[0].m===pts[3].m && pts[0].n!==pts[3].n) {
+    if (pts[0].m === pts[3].m && pts[0].n !== pts[3].n) {
         return [
-            [Object.assign(pts[0],{w:toW,h:height-pts[0].q})],
-            [Object.assign(pts[2],{w:toW,h:pts[2].q,q:0})],
+            [Object.assign(pts[0], { w: toW, h: height - pts[0].q })],
+            [Object.assign(pts[2], { w: toW, h: pts[2].q, q: 0 })],
         ]
     }
-    if (pts[0].m!==pts[3].m && pts[0].n!==pts[3].n) {
+    if (pts[0].m !== pts[3].m && pts[0].n !== pts[3].n) {
         return [
             [
-                Object.assign(pts[0],{w:width-pts[0].p,h:height-pts[0].q}),
-                Object.assign(pts[1],{w:pts[1].p,h:height-pts[0].q,p:0}),
+                Object.assign(pts[0], { w: width - pts[0].p, h: height - pts[0].q }),
+                Object.assign(pts[1], { w: pts[1].p, h: height - pts[0].q, p: 0 }),
             ],
             [
-                Object.assign(pts[2],{w:width-pts[0].p,h:pts[2].q,q:0}),
-                Object.assign(pts[3],{w:pts[1].p,h:pts[2].q,p:0,q:0}),
+                Object.assign(pts[2], { w: width - pts[0].p, h: pts[2].q, q: 0 }),
+                Object.assign(pts[3], { w: pts[1].p, h: pts[2].q, p: 0, q: 0 }),
             ],
         ]
     }
 }
-exports.getMNPQWHFromXY = getMNPQWHFromXY
+exports.extendMNPQ = extendMNPQ
