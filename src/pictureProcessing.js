@@ -1,11 +1,12 @@
 const gm = require('gm').subClass({ imageMagick: true })
 const fs = require('fs')
+const { getMNPQFromXY, extendMNPQ } = require('./transform')
 // const sharp = require('sharp');
-// gm('img.png').crop(width, height, x, y)
 
 exports.test = function (data) {
     // return testlib(data)
-    return testExtractFirstAB(data)
+    // return testExtractFirstAB(data)
+    return extractMainProcess(data)
 }
 
 
@@ -58,7 +59,7 @@ function emptycb(err) {
 }
 
 function mntoi(m, n, row, col) {
-    return (m - 1) * col + (n - 1)
+    return (n - 1) * col + (m - 1)
 }
 
 function collectPicConfigs(data) {
@@ -103,8 +104,8 @@ function extractOneAB(abinfo, outputPrefix, data, picConfigs, callback) {
         if (!leftRight) mnpqwhs = mnpqwhs.concat(mnpqwh[1]);
 
         let names = [
-            `${pictureOutputDir}/${outputPrefix}-P0-P.jpg`,
-            `${pictureOutputDir}/${outputPrefix}-P1-P.jpg`,
+            `${pictureOutputDir}/P${outputPrefix}-0-P.jpg`,
+            `${pictureOutputDir}/P${outputPrefix}-1-P.jpg`,
             `${pictureOutputDir}/${outputPrefix}-F.jpg`,
         ]
 
@@ -119,12 +120,12 @@ function extractOneAB(abinfo, outputPrefix, data, picConfigs, callback) {
     if (mnpqwh.length + mnpqwh[0].length === 4) {
         // 截取出四个临时文件,再拼接出两个临时文件,再拼接
         let names = [
-            `${pictureOutputDir}/${outputPrefix}-P0-P.jpg`,
-            `${pictureOutputDir}/${outputPrefix}-P1-P.jpg`,
-            `${pictureOutputDir}/${outputPrefix}-P2-P.jpg`,
-            `${pictureOutputDir}/${outputPrefix}-P3-P.jpg`,
-            `${pictureOutputDir}/${outputPrefix}-A0-A.jpg`,
-            `${pictureOutputDir}/${outputPrefix}-A1-A.jpg`,
+            `${pictureOutputDir}/P${outputPrefix}-0-P.jpg`,
+            `${pictureOutputDir}/P${outputPrefix}-1-P.jpg`,
+            `${pictureOutputDir}/P${outputPrefix}-2-P.jpg`,
+            `${pictureOutputDir}/P${outputPrefix}-3-P.jpg`,
+            `${pictureOutputDir}/A${outputPrefix}-0-A.jpg`,
+            `${pictureOutputDir}/A${outputPrefix}-1-A.jpg`,
             `${pictureOutputDir}/${outputPrefix}-F.jpg`,
         ]
 
@@ -179,4 +180,40 @@ function testExtractFirstAB(data) {
         ]
     }, 'testExtractFirstAB4', data, picConfigs)
     return 'submitted'
+}
+
+
+function extractMainProcess(data) {
+    let testSome = true
+    if (!testSome) {
+        throw '会让系统死机,要改成队列机制'
+    }
+
+    let { workDir, cutPixelSize } = data
+    let xyangles = JSON.parse(fs.readFileSync(workDir + '/ab.json', { encoding: 'utf8' }))
+    if (testSome) xyangles = xyangles.slice(1000, 1010);
+    let picConfigs = collectPicConfigs(data)
+    let prefixLength = String(xyangles.length).length
+
+    let infos = xyangles.map((xyangle, i) => {
+        let { x, y, angle } = xyangle
+        let imageGroup = 1
+        let { A, B, C, D, E, F, width, height, row, col, files } = picConfigs[imageGroup - 1]
+        let [m, n, p, q] = getMNPQFromXY(x, y, A, B, C, D, E, F, width, height)
+        let mnpqwh = extendMNPQ(m, n, p, q, width, height, cutPixelSize, cutPixelSize)
+        let abinfo = { mnpqwh, imageGroup }
+
+        let outputPrefix = ('000000000000000000000000' + i).slice(-prefixLength)
+
+        let imgI = mntoi(m, n, row, col)
+        let img = files[imgI]
+
+        return [
+            new Promise(res => extractOneAB(abinfo, outputPrefix, data, picConfigs, res)),
+            { x, y, angle, imageGroup, m, n, p, q, mnpqwh, imgI, img }
+        ]
+    })
+    let ret = 'submitted'
+    if (testSome) ret = infos;
+    return ret
 }
