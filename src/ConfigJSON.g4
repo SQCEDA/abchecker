@@ -11,8 +11,8 @@ prog
         'ABHeight' ABHeight=Number BGNL
         '>右键点从GDS提取AB' BGNL
         '切图像素尺寸' cutPixelSize=Number BGNL
-        '图片分支' BGNL switchPosition=switchPositionBlock
-        '切片导出路径(初始必须是空的)' pictureOutputDir=NormalString BGNL
+        '图片分支(暂时无效,锁定为1)' BGNL switchPosition=switchPositionBlock
+        '切片导出路径' pictureOutputDir=NormalString BGNL
 /* prog
 menu:[['test','window.testFunction?testFunction(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['加载配置','window.loadConfig?loadConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],['从GDS提取AB','window.extractABFromGDS?extractABFromGDS(block):0'],]
 */
@@ -35,6 +35,7 @@ default:['0','0','0','0','0','0']
         '照片像素作标 m,n,p,q' BGNL
         'm,n 是第m列切片, 第n行切片' BGNL
         'p,q 是到左侧和顶部的像素数' BGNL
+        '(注意顺序是 nmpq 而不是 nmpq )' BGNL
         positionPair=positionPairBlock+
     # positionPairs
     ;
