@@ -219,7 +219,10 @@ function extractMainProcess(data, debug) {
             await Promise.all(task.map(submitOne))
         }
         let t2 = new Date();
-        console.log(`time: ${t2 - t1}s`);
+        console.log(`time: ${(t2 - t1)/1000}s`);
+        // process 50436~50439 of 50440
+        // time: 3429.032s
+
     }
     mainfunc()
     let ret = 'submitted'
