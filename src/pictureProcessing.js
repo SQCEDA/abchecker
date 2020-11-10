@@ -211,22 +211,20 @@ function extractMainProcess(data, debug) {
     }
     let xyangles_withindex = xyangles.map((v, i) => [v, i])
     // xyangles_withindex.map(submitOne)
-
-    let total = xyangles_withindex.length
-    let t1 = new Date();
-    let p = Promise.resolve()
-    while (xyangles_withindex.length > 0) {
-        let task = xyangles_withindex.splice(0, cutParallel)
-        console.log(`process ${task[0][1]}~${task.slice(-1)[0][1]} of ${total}`);
-        p.then(Promise.all(task.map(submitOne)))
-    }
-    p.then(() => {
+    let mainProcess = async () => {
+        let total = xyangles_withindex.length
+        let t1 = new Date();
+        while (xyangles_withindex.length > 0) {
+            let task = xyangles_withindex.splice(0, cutParallel)
+            console.log(`process ${task[0][1]}~${task.slice(-1)[0][1]} of ${total}`);
+            await Promise.all(task.map(submitOne))
+        }
         let t2 = new Date();
         console.log(`time: ${(t2 - t1) / 1000}s`);
         // process 50436~50439 of 50440
         // time: 3429.032s (before fix 4->1 bug)
-    })
-
+    }
+    mainProcess()
     let ret = 'submitted'
     if (testSome) ret = infos;
     return ret
