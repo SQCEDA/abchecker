@@ -1,18 +1,18 @@
 
 
-function xhrPost(url,data,callback) {
+function xhrPost(url, data, callback) {
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function(){
-        if(xhr.readyState==4){
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
             if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-                callback(null,xhr.responseText);
-            }else{
-                callback([xhr.status,xhr.responseText],null);
+                callback(null, xhr.responseText);
+            } else {
+                callback([xhr.status, xhr.responseText], null);
             }
         }
     }
-    xhr.open('post',url);
-    xhr.setRequestHeader('Content-Type','text/plain')
+    xhr.open('post', url);
+    xhr.setRequestHeader('Content-Type', 'text/plain')
     xhr.send(data);
 }
 
@@ -64,37 +64,53 @@ function blocklyInitDone() {
 
 function loadConfig(block) {
     let dir = block.getFieldValue('workDir')
-    let content = xhrPostSync('/loadfile',JSON.stringify({path:dir+'/config.json'}))
+    let content = xhrPostSync('/loadfile', JSON.stringify({ path: dir + '/config.json' }))
     ConfigJSONFunctions.parse(JSON.parse(content))
 }
 
 function saveConfig() {
-    let data=g.data
+    let data = g.data
     let dir = data.workDir
-    let ret = xhrPostSync('/savefile',JSON.stringify({path:dir+'/config.json',content:JSON.stringify(data,null,4)}))
+    let ret = xhrPostSync('/savefile', JSON.stringify({ path: dir + '/config.json', content: JSON.stringify(data, null, 4) }))
     console.log(ret);
 }
 
 function calculateImageInformation() {
-    let data=g.data
-    let ret = xhrPostSync('/calculateImageInformation',JSON.stringify(data))
+    let data = g.data
+    let ret = xhrPostSync('/calculateImageInformation', JSON.stringify(data))
     console.log(ret);
 }
 
 function extractABFromGDS() {
-    let data=g.data
-    let ret = xhrPostSync('/extractABFromGDS',JSON.stringify(data))
+    let data = g.data
+    let ret = xhrPostSync('/extractABFromGDS', JSON.stringify(data))
     console.log(ret);
 }
 
 function extractMainProcess() {
-    let data=g.data
-    let ret = xhrPostSync('/extractMainProcess',JSON.stringify(data))
+    let data = g.data
+    let ret = xhrPostSync('/extractMainProcess', JSON.stringify(data))
     console.log(ret);
 }
 
+function openHumanCheck() {
+    window.open('/human_check.html', '__blank')
+}
+
 function testFunction(block) {
-    let data=g.data
-    let ret = xhrPostSync('/test',JSON.stringify(data))
+    let data = g.data
+    let ret = xhrPostSync('/test', JSON.stringify(data))
     console.log(ret);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+function human_check_page() {
+
+    g.data = JSON.parse(localStorage.getItem('codeAreaStorage'))
+    g.count = JSON.parse(xhrPostSync('/humanCheckSetting', JSON.stringify(g.data)))
+
+
+
 }

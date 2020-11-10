@@ -14,9 +14,9 @@ prog
         '切片导出路径' pictureOutputDir=NormalString BGNL
         '切图像素尺寸' cutPixelSize=Number BGNL
         '切图并行数(填1.5*cpu核数取整)' cutParallel=Number BGNL
-        '>右键点从从图片切出AB' BGNL
+        '>右键点从图片切出AB' BGNL
 /* prog
-menu:[['test','window.testFunction?testFunction(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['加载配置','window.loadConfig?loadConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],['从GDS提取AB信息','window.extractABFromGDS?extractABFromGDS(block):0'],['从图片切出AB','window.extractMainProcess?extractMainProcess(block):0'],]
+menu:[['test','window.testFunction?testFunction(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['加载配置','window.loadConfig?loadConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],['从GDS提取AB信息','window.extractABFromGDS?extractABFromGDS(block):0'],['从图片切出AB','window.extractMainProcess?extractMainProcess(block):0'],['人工检查判断AB','window.openHumanCheck?openHumanCheck(block):0'],]
 */
     ;
 

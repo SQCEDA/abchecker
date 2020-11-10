@@ -5,6 +5,7 @@ const path = require('path')
 const { calculate } = require('./calculateImageInformation')
 const { extractABFromGDS } = require('./execGDSScripts')
 const { extractMainProcess } = require('./pictureProcessing')
+const { initHumanCheckSetting } = require('./humanCheckBackend')
 
 const { test } = require('./test')
 
@@ -13,7 +14,9 @@ const { test } = require('./test')
 
 exports.startServer = function (root, port) {
 
-
+    let workingConfig = {
+        pictureOutputDir: root,
+    }
 
     const getTime = function () {
         return (function (fmt, dateobj) {
@@ -104,6 +107,14 @@ exports.startServer = function (root, port) {
                 response.end(content);
                 return
             }
+            if (urlstr === '/humanCheckSetting') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = initHumanCheckSetting(data, workingConfig)
+                response.writeHead(200);
+                response.end(content);
+                return
+            }
             response.writeHead(200);
             response.end('no service this url');
         })
@@ -112,6 +123,10 @@ exports.startServer = function (root, port) {
     const mainget = function (request, response) {
         var pathname = url.parse(request.url).pathname;
         var filepath = path.join(root, pathname);
+        const pmark = '/pictureOutputDir/'
+        if (pathname.startsWith(pmark)) {
+            filepath = path.join(workingConfig.pictureOutputDir, pathname.slice(pmark.length));
+        }
         if (filepath.endsWith('/') || filepath.endsWith('\\')) {
             filepath += 'index.html';
         }
