@@ -110,7 +110,7 @@ function human_check_page() {
 
     g.data = JSON.parse(localStorage.getItem('codeAreaStorage'))
     g.count = JSON.parse(xhrPostSync('/humanCheckSetting', JSON.stringify(g.data)))
-
+    console.log(g);
 
 
 }

@@ -95,7 +95,8 @@ function extractOneAB(abinfo, outputPrefix, data, picConfigs, callback) {
         let names = [
             `${pictureOutputDir}/${outputPrefix}-F.jpg`,
         ]
-        crop(mnpqwh[0][0], names[0]).then(callback)
+        crop(mnpqwh[0][0], names[0])
+            .then(callback)
     }
 
     if (mnpqwh.length + mnpqwh[0].length === 3) {
@@ -113,9 +114,10 @@ function extractOneAB(abinfo, outputPrefix, data, picConfigs, callback) {
         Promise.all([
             crop(mnpqwhs[0], names[0]),
             crop(mnpqwhs[1], names[1]),
-        ]).then(() => {
-            append(names[0], names[1], leftRight, names[2]).then(callback)
-        })
+        ])
+            .then(() => append(names[0], names[1], leftRight, names[2]))
+            .then(callback)
+
     }
 
     if (mnpqwh.length + mnpqwh[0].length === 4) {
@@ -135,14 +137,13 @@ function extractOneAB(abinfo, outputPrefix, data, picConfigs, callback) {
             crop(mnpqwh[0][1], names[1]),
             crop(mnpqwh[1][0], names[2]),
             crop(mnpqwh[1][1], names[3]),
-        ]).then(() => {
-            Promise.all([
+        ])
+            .then(() => Promise.all([
                 append(names[0], names[1], true, names[4]),
                 append(names[2], names[3], true, names[5]),
-            ]).then(() => {
-                append(names[4], names[5], false, names[6]).then(callback)
-            })
-        })
+            ]))
+            .then(() => append(names[4], names[5], false, names[6]))
+            .then(callback)
     }
 }
 
@@ -210,21 +211,22 @@ function extractMainProcess(data, debug) {
     }
     let xyangles_withindex = xyangles.map((v, i) => [v, i])
     // xyangles_withindex.map(submitOne)
-    let mainfunc = async () => {
-        let total = xyangles_withindex.length
-        let t1 = new Date();
-        while (xyangles_withindex.length > 0) {
-            let task = xyangles_withindex.splice(0, cutParallel)
-            console.log(`process ${task[0][1]}~${task.slice(-1)[0][1]} of ${total}`);
-            await Promise.all(task.map(submitOne))
-        }
+
+    let total = xyangles_withindex.length
+    let t1 = new Date();
+    let p = Promise.resolve()
+    while (xyangles_withindex.length > 0) {
+        let task = xyangles_withindex.splice(0, cutParallel)
+        console.log(`process ${task[0][1]}~${task.slice(-1)[0][1]} of ${total}`);
+        p.then(Promise.all(task.map(submitOne)))
+    }
+    p.then(() => {
         let t2 = new Date();
-        console.log(`time: ${(t2 - t1)/1000}s`);
+        console.log(`time: ${(t2 - t1) / 1000}s`);
         // process 50436~50439 of 50440
         // time: 3429.032s (before fix 4->1 bug)
+    })
 
-    }
-    mainfunc()
     let ret = 'submitted'
     if (testSome) ret = infos;
     return ret
