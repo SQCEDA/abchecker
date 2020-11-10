@@ -4,6 +4,7 @@ const url = require('url')
 const path = require('path')
 const { calculate } = require('./calculateImageInformation')
 const { extractABFromGDS } = require('./execGDSScripts')
+const { extractMainProcess } = require('./pictureProcessing')
 
 const { test } = require('./test')
 
@@ -91,6 +92,14 @@ exports.startServer = function (root, port) {
                 console.log(urlstr, body);
                 let data = JSON.parse(body)
                 let content = extractABFromGDS(data)
+                response.writeHead(200);
+                response.end(content);
+                return
+            }
+            if (urlstr === '/extractMainProcess') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = extractMainProcess(data)
                 response.writeHead(200);
                 response.end(content);
                 return

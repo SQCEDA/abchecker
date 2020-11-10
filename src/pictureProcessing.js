@@ -4,9 +4,10 @@ const { getMNPQFromXY, extendMNPQ } = require('./transform')
 // const sharp = require('sharp');
 
 exports.test = function (data) {
+    let debug = true
     // return testlib(data)
     // return testExtractFirstAB(data)
-    return extractMainProcess(data)
+    return extractMainProcess(data, debug)
 }
 
 
@@ -183,15 +184,11 @@ function testExtractFirstAB(data) {
 }
 
 
-function extractMainProcess(data) {
-    let testSome = true
-    if (!testSome) {
-        throw '会让系统死机,要改成队列机制'
-    }
-    let parallel = 4
-    let { workDir, cutPixelSize } = data
+function extractMainProcess(data, debug) {
+    let testSome = !!debug
+    let { workDir, cutPixelSize, cutParallel } = data
     let xyangles = JSON.parse(fs.readFileSync(workDir + '/ab.json', { encoding: 'utf8' }))
-    if (testSome) xyangles = xyangles.slice(1000, 1010);
+    if (testSome) xyangles = xyangles.slice(0, 32);
     let picConfigs = collectPicConfigs(data)
     let prefixLength = String(xyangles.length).length
     let infos = []
@@ -213,15 +210,20 @@ function extractMainProcess(data) {
     }
     let xyangles_withindex = xyangles.map((v, i) => [v, i])
     // xyangles_withindex.map(submitOne)
-    async let mainfunc = () => {
-        while (xyangles_withindex.length>0) {
-            let task = xyangles_withindex.splice(0,parallel)
-            console.log(`process ${xyangles_withindex[0][1]}~${xyangles_withindex.slice(-1)[0][1]}`);
+    let mainfunc = async () => {
+        let total = xyangles_withindex.length
+        let t1 = new Date();
+        while (xyangles_withindex.length > 0) {
+            let task = xyangles_withindex.splice(0, cutParallel)
+            console.log(`process ${task[0][1]}~${task.slice(-1)[0][1]} of ${total}`);
             await Promise.all(task.map(submitOne))
         }
+        let t2 = new Date();
+        console.log(`time: ${t2 - t1}s`);
     }
     mainfunc()
     let ret = 'submitted'
     if (testSome) ret = infos;
     return ret
 }
+exports.extractMainProcess = extractMainProcess

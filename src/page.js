@@ -87,6 +87,12 @@ function extractABFromGDS() {
     console.log(ret);
 }
 
+function extractMainProcess() {
+    let data=g.data
+    let ret = xhrPostSync('/extractMainProcess',JSON.stringify(data))
+    console.log(ret);
+}
+
 function testFunction(block) {
     let data=g.data
     let ret = xhrPostSync('/test',JSON.stringify(data))
