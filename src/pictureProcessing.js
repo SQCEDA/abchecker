@@ -188,14 +188,15 @@ function extractMainProcess(data) {
     if (!testSome) {
         throw '会让系统死机,要改成队列机制'
     }
-
+    let parallel = 4
     let { workDir, cutPixelSize } = data
     let xyangles = JSON.parse(fs.readFileSync(workDir + '/ab.json', { encoding: 'utf8' }))
     if (testSome) xyangles = xyangles.slice(1000, 1010);
     let picConfigs = collectPicConfigs(data)
     let prefixLength = String(xyangles.length).length
-
-    let infos = xyangles.map((xyangle, i) => {
+    let infos = []
+    let submitOne = (xyangle_i) => {
+        let [xyangle, i] = xyangle_i
         let { x, y, angle } = xyangle
         let imageGroup = 1
         let { A, B, C, D, E, F, width, height, row, col, files } = picConfigs[imageGroup - 1]
@@ -207,12 +208,19 @@ function extractMainProcess(data) {
 
         let imgI = mntoi(m, n, row, col)
         let img = files[imgI]
-
-        return [
-            new Promise(res => extractOneAB(abinfo, outputPrefix, data, picConfigs, res)),
-            { x, y, angle, imageGroup, m, n, p, q, mnpqwh, imgI, img }
-        ]
-    })
+        infos.push({ x, y, angle, imageGroup, m, n, p, q, mnpqwh, imgI, img, outputPrefix })
+        return new Promise(res => extractOneAB(abinfo, outputPrefix, data, picConfigs, res))
+    }
+    let xyangles_withindex = xyangles.map((v, i) => [v, i])
+    // xyangles_withindex.map(submitOne)
+    async let mainfunc = () => {
+        while (xyangles_withindex.length>0) {
+            let task = xyangles_withindex.splice(0,parallel)
+            console.log(`process ${xyangles_withindex[0][1]}~${xyangles_withindex.slice(-1)[0][1]}`);
+            await Promise.all(task.map(submitOne))
+        }
+    }
+    mainfunc()
     let ret = 'submitted'
     if (testSome) ret = infos;
     return ret
