@@ -119,7 +119,7 @@ function extendMNPQ(m, n, p, q, width, height, toW, toH) {
             ],
             [
                 Object.assign(pts[2], { w: width - pts[0].p, h: pts[2].q, q: 0 }),
-                Object.assign(pts[3], { w: pts[1].p, h: pts[2].q, p: 0, q: 0 }),
+                Object.assign(pts[3], { w: pts[3].p, h: pts[3].q, p: 0, q: 0 }),
             ],
         ]
     }

@@ -221,7 +221,7 @@ function extractMainProcess(data, debug) {
         let t2 = new Date();
         console.log(`time: ${(t2 - t1)/1000}s`);
         // process 50436~50439 of 50440
-        // time: 3429.032s
+        // time: 3429.032s (before fix 4->1 bug)
 
     }
     mainfunc()
