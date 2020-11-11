@@ -167,6 +167,8 @@ function goToPage(pid) {
     }
 }
 
+// 02548 有bug
+
 function doneThisPage() {
     // update each as done
     goToPage(g.pid+1)
