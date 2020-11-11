@@ -106,11 +106,20 @@ function testFunction(block) {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-function human_check_page() {
+function humanCheckPageInit() {
 
     g.data = JSON.parse(localStorage.getItem('codeAreaStorage'))
     g.count = JSON.parse(xhrPostSync('/humanCheckSetting', JSON.stringify(g.data)))
     console.log(g);
 
+}
 
+function goToPage(pid) {
+    
+}
+
+function bindClick() {
+    Array.from(document.querySelectorAll('.pics .forclick')).forEach(
+        (v, i) => v.onclick = (e) => console.log(e, e.offsetX, e.offsetY, i)
+    )
 }
