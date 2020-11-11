@@ -109,13 +109,67 @@ function testFunction(block) {
 function humanCheckPageInit() {
 
     g.data = JSON.parse(localStorage.getItem('codeAreaStorage'))
-    g.count = JSON.parse(xhrPostSync('/humanCheckSetting', JSON.stringify(g.data)))
+    g.ab = JSON.parse(xhrPostSync('/humanCheckSetting', JSON.stringify(g.data)))
+    g.count = g.ab.length
+    goToPage(0)
+    bindClick()
     console.log(g);
 
 }
 
+function getPicName(i) {
+    let prefixLength = String(g.count).length
+    let outputPrefix = ('000000000000000000000000' + i).slice(-prefixLength)
+    return outputPrefix + '-F.jpg'
+}
+
+function saveCheckProgress() {
+    let data = g.data
+    let dir = data.workDir
+    let ret = xhrPostSync('/savefile', JSON.stringify({ path: dir + '/progress.json', content: JSON.stringify(g.progress, null, 4) }))
+    console.log(ret);
+}
+
+function loadCheckProgress() {
+    let data = g.data
+    let dir = data.workDir
+    try {
+        var content = xhrGetSync('/progress.json')
+    } catch (error) {
+        if (error == 'HTTP 404') {
+            content = JSON.stringify({})
+        } else {
+            throw error
+        }
+    }
+    let obj = JSON.parse(content)
+    g.progress = obj
+    console.log('load done');
+}
+
 function goToPage(pid) {
-    
+    totalpage.innerText = Math.ceil(g.count/50)
+    totalpic.innerText = g.count
+    pid = parseInt(pid)
+    g.pid = pid
+    currentpid.innerText = g.pid
+    topid.value = g.pid-1
+    g.spic = pid*50
+    g.epic = pid*50+49
+    spic.innerText = g.spic
+    epic.innerText = g.epic
+    let piclist = Array.from(document.querySelectorAll('.pics img'))
+    for (let i = 0; i < 50; i++) {
+        let picname = getPicName(i+g.spic)
+        piclist[i].src = '/pictureOutputDir/'+picname
+        piclist[i].style=`transform:rotate(${g.ab[i+g.spic].angle+Math.PI/2}rad);`
+        // reset classes
+    }
+}
+
+function doneThisPage() {
+    // update each as done
+    goToPage(g.pid+1)
 }
 
 function bindClick() {
