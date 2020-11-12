@@ -214,8 +214,8 @@ function bindClick() {
                     break
                 }
                 if (x >= 70 && y >= 70) {
-                    if (!/^[A-Za-z_]+$/.test(commentstr.value)) {
-                        console.error('请先填写注释(只允许字母和下滑线)');
+                    if (!/^[A-Za-z0-9_]+$/.test(commentstr.value)) {
+                        console.error('请先填写注释(只允许字母数字和下滑线)');
                     } else {
                         g.progress[g.spic + i].class = 'infop'
                         boardlist[i].setAttribute('class', 'board infop')
