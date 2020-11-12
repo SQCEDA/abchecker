@@ -76,40 +76,34 @@ function saveConfig() {
 }
 
 function calculateImageInformation() {
-    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/calculateImageInformation', JSON.stringify(data))
     console.log(ret);
 }
 
 function extractABFromGDS() {
-    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/extractABFromGDS', JSON.stringify(data))
     console.log(ret);
 }
 
 function extractMainProcess() {
-    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/extractMainProcess', JSON.stringify(data))
     console.log(ret);
 }
 
 function openHumanCheck() {
-    saveConfig()
     window.open('/human_check.html', '__blank')
 }
 
 function generateSolution() {
-    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/generateSolution', JSON.stringify(data))
     console.log(ret);
 }
 
 function testFunction(block) {
-    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/test', JSON.stringify(data))
     console.log(ret);
