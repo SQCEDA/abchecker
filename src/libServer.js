@@ -3,7 +3,7 @@ const http = require('http')
 const url = require('url')
 const path = require('path')
 const { calculate } = require('./calculateImageInformation')
-const { extractABFromGDS } = require('./execGDSScripts')
+const { extractABFromGDS,generateSolution } = require('./execGDSScripts')
 const { extractMainProcess } = require('./pictureProcessing')
 const { initHumanCheckSetting } = require('./humanCheckBackend')
 
@@ -112,6 +112,14 @@ exports.startServer = function (root, port) {
                 console.log(urlstr, body);
                 let data = JSON.parse(body)
                 let content = initHumanCheckSetting(data, workingConfig)
+                response.writeHead(200);
+                response.end(content);
+                return
+            }
+            if (urlstr === '/generateSolution') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = generateSolution(data)
                 response.writeHead(200);
                 response.end(content);
                 return

@@ -76,28 +76,40 @@ function saveConfig() {
 }
 
 function calculateImageInformation() {
+    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/calculateImageInformation', JSON.stringify(data))
     console.log(ret);
 }
 
 function extractABFromGDS() {
+    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/extractABFromGDS', JSON.stringify(data))
     console.log(ret);
 }
 
 function extractMainProcess() {
+    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/extractMainProcess', JSON.stringify(data))
     console.log(ret);
 }
 
 function openHumanCheck() {
+    saveConfig()
     window.open('/human_check.html', '__blank')
 }
 
+function generateSolution() {
+    saveConfig()
+    let data = g.data
+    let ret = xhrPostSync('/generateSolution', JSON.stringify(data))
+    console.log(ret);
+}
+
 function testFunction(block) {
+    saveConfig()
     let data = g.data
     let ret = xhrPostSync('/test', JSON.stringify(data))
     console.log(ret);
@@ -165,13 +177,13 @@ function goToPage(pid) {
         // fetch pic
         let picname = getPicName(i + g.spic)
         piclist[i].src = '/pictureOutputDir/' + picname
-        piclist[i].style = `transform:rotate(${g.ab[i + g.spic].angle + Math.PI / 2}rad);`
+        piclist[i].style = `transform:rotate(${g.ab[i + g.spic]?.angle + Math.PI / 2}rad);`
         // reset classes
         boardlist[i].setAttribute('class', 'board ' + g.progress[i + g.spic]?.class)
     }
 }
 
-// 02548 有bug
+// 02548 有 bug todo
 
 function doneThisPage() {
     // update each as done
@@ -190,6 +202,9 @@ function bindClick() {
         (v, i) => v.onclick = (e) => {
             console.log('点击事件', e, e.offsetX, e.offsetY);
             console.log('图片编号', g.spic + i, `(${i})`);
+            if (g.spic + i>=g.count) {
+                return
+            }
             console.log('AB信息', g.ab[g.spic + i]);
             let [x, y] = [e.offsetX, e.offsetY]
             g.progress[g.spic + i] = g.progress[g.spic + i] ?? {}

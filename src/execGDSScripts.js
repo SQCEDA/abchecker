@@ -12,3 +12,14 @@ exports.extractABFromGDS = function (data) {
     let ret = execSync(cmd, { encoding: 'utf8' });
     return ret
 }
+
+exports.generateSolution = function (data) {
+    let { klayoutPath, workDir } = data
+    let cmd = `set abcheckpythoninput=${workDir} && "${klayoutPath}" -r generateSolution.py`
+    if (platform()==='linux') {
+        cmd = `abcheckpythoninput="${workDir}" "${klayoutPath}" -r generateSolution.py`
+    }
+    console.log(cmd);
+    let ret = execSync(cmd, { encoding: 'utf8' });
+    return ret
+}
