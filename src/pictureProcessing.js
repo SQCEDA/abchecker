@@ -24,7 +24,10 @@ function testlib(data) {
         gm(img).rotate('black', 45).write(pictureOutputDir + '/test1.jpg', logcb);
 
         // 截取
-        gm(img).crop(cutPixelSize, cutPixelSize, 100, 50).write(pictureOutputDir + '/test2.jpg', logcb);
+        gm(img).crop(cutPixelSize, cutPixelSize, 100, 50).write(pictureOutputDir + '/test2.jpg', ()=>{
+            gm(pictureOutputDir + '/test2.jpg').crop(50, 50, 169, 169).write(pictureOutputDir + '/test7.jpg', logcb);
+            gm(pictureOutputDir + '/test2.jpg').crop(50, 50, 170, 170).write(pictureOutputDir + '/test8.jpg', logcb);
+        });
 
         // appends another.jpg to img.png from top-to-bottom
         // appends another.jpg to img.png from left-to-right: ,true
@@ -189,7 +192,7 @@ function extractMainProcess(data, debug) {
     let testSome = !!debug
     let { workDir, cutPixelSize, cutParallel } = data
     let xyangles = JSON.parse(fs.readFileSync(workDir + '/ab.json', { encoding: 'utf8' }))
-    if (testSome) xyangles = xyangles.slice(0, 32);
+    if (testSome) xyangles = xyangles.slice(2548-2, 2548+2);
     let picConfigs = collectPicConfigs(data)
     let prefixLength = String(xyangles.length).length
     let infos = []

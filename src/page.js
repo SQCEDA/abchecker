@@ -177,8 +177,6 @@ function goToPage(pid) {
     }
 }
 
-// 02548 有 bug todo
-
 function doneThisPage() {
     // update each as done
     for (let i = 0; i < 50; i++) {

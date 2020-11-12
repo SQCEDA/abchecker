@@ -90,9 +90,9 @@ function extendMNPQ(m, n, p, q, width, height, toW, toH) {
     pts = pts.map(v => {
         let [m, n, p, q] = v
         p < 0 ? (p += width, m--) : 0
-        p >= width ? (p -= width, m++) : 0
+        p > width ? (p -= width, m++) : 0
         q < 0 ? (q += height, n--) : 0
-        q >= height ? (q -= height, n++) : 0
+        q > height ? (q -= height, n++) : 0
         return { m, n, p, q }
     })
 
