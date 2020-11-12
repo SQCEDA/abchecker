@@ -16,6 +16,7 @@ exports.startServer = function (root, port) {
 
     let workingConfig = {
         pictureOutputDir: root,
+        workDir: root,
     }
 
     const getTime = function () {
@@ -126,6 +127,10 @@ exports.startServer = function (root, port) {
         const pmark = '/pictureOutputDir/'
         if (pathname.startsWith(pmark)) {
             filepath = path.join(workingConfig.pictureOutputDir, pathname.slice(pmark.length));
+        }
+        const wmark = '/workDir/'
+        if (pathname.startsWith(wmark)) {
+            filepath = path.join(workingConfig.workDir, pathname.slice(wmark.length));
         }
         if (filepath.endsWith('/') || filepath.endsWith('\\')) {
             filepath += 'index.html';
