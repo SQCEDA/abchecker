@@ -24,7 +24,7 @@ function testlib(data) {
         gm(img).rotate('black', 45).write(pictureOutputDir + '/test1.jpg', logcb);
 
         // 截取
-        gm(img).crop(cutPixelSize, cutPixelSize, 100, 50).write(pictureOutputDir + '/test2.jpg', ()=>{
+        gm(img).crop(cutPixelSize, cutPixelSize, 100, 50).write(pictureOutputDir + '/test2.jpg', () => {
             gm(pictureOutputDir + '/test2.jpg').crop(50, 50, 169, 169).write(pictureOutputDir + '/test7.jpg', logcb);
             gm(pictureOutputDir + '/test2.jpg').crop(50, 50, 170, 170).write(pictureOutputDir + '/test8.jpg', logcb);
         });
@@ -72,10 +72,9 @@ function collectPicConfigs(data) {
     return picConfigs
 }
 
-function extractOneAB(abinfo, outputPrefix, data, picConfigs, callback) {
+function extractOneAB(abinfo, outputPrefix, pictureOutputDir, picConfigs, callback) {
     let { imageGroup, mnpqwh } = abinfo
     imageGroup -= 1
-    let { pictureOutputDir } = data
     let picConfig = picConfigs[imageGroup]
     let { files, width, height, col, row } = picConfig
 
@@ -152,25 +151,25 @@ function extractOneAB(abinfo, outputPrefix, data, picConfigs, callback) {
 
 function testExtractFirstAB(data) {
     let picConfigs = collectPicConfigs(data)
-
+    let { pictureOutputDir } = data
     extractOneAB({
         imageGroup: 1,
         mnpqwh: [[{ m: 1, n: 1, p: 100, q: 50, w: 80, h: 100 }]]
-    }, 'testExtractFirstAB1', data, picConfigs)
+    }, 'testExtractFirstAB1', pictureOutputDir, picConfigs)
     extractOneAB({
         imageGroup: 1,
         mnpqwh: [[
             { m: 1, n: 1, p: 100, q: 50, w: 80, h: 100 },
             { m: 1, n: 1, p: 100, q: 50, w: 80, h: 100 },
         ]]
-    }, 'testExtractFirstAB2', data, picConfigs)
+    }, 'testExtractFirstAB2', pictureOutputDir, picConfigs)
     extractOneAB({
         imageGroup: 1,
         mnpqwh: [
             [{ m: 1, n: 1, p: 100, q: 50, w: 80, h: 100 }],
             [{ m: 1, n: 1, p: 100, q: 50, w: 80, h: 100 }],
         ]
-    }, 'testExtractFirstAB3', data, picConfigs)
+    }, 'testExtractFirstAB3', pictureOutputDir, picConfigs)
     extractOneAB({
         imageGroup: 1,
         mnpqwh: [
@@ -183,16 +182,17 @@ function testExtractFirstAB(data) {
                 { m: 1, n: 1, p: 100, q: 50, w: 80, h: 100 },
             ],
         ]
-    }, 'testExtractFirstAB4', data, picConfigs)
+    }, 'testExtractFirstAB4', pictureOutputDir, picConfigs)
     return 'submitted'
 }
 
 
 function extractMainProcess(data, debug) {
     let testSome = !!debug
-    let { workDir, cutPixelSize, cutParallel } = data
+    let { workDir, cutPixelSize, cutParallel, pictureOutputDir } = data
+    fs.mkdirSync(pictureOutputDir, { recursive: true })
     let xyangles = JSON.parse(fs.readFileSync(workDir + '/ab.json', { encoding: 'utf8' }))
-    if (testSome) xyangles = xyangles.slice(2548-2, 2548+2);
+    if (testSome) xyangles = xyangles.slice(2548 - 2, 2548 + 2);
     let picConfigs = collectPicConfigs(data)
     let prefixLength = String(xyangles.length).length
     let infos = []
@@ -210,7 +210,7 @@ function extractMainProcess(data, debug) {
         let imgI = mntoi(m, n, row, col)
         let img = files[imgI]
         infos.push({ x, y, angle, imageGroup, m, n, p, q, mnpqwh, imgI, img, outputPrefix })
-        return new Promise(res => extractOneAB(abinfo, outputPrefix, data, picConfigs, res))
+        return new Promise(res => extractOneAB(abinfo, outputPrefix, pictureOutputDir, picConfigs, res))
     }
     let xyangles_withindex = xyangles.map((v, i) => [v, i])
     // xyangles_withindex.map(submitOne)
@@ -228,8 +228,49 @@ function extractMainProcess(data, debug) {
         // time: 3429.032s (before fix 4->1 bug)
     }
     mainProcess()
-    let ret = 'submitted'
+    let ret = 'submitted: ' + xyangles.length
     if (testSome) ret = infos;
     return ret
 }
 exports.extractMainProcess = extractMainProcess
+
+function extraCutProcess(data) {
+    let { extraCut, cutParallel, extraCutPixelSize: cutPixelSize, extraCutPictureOutputDir: pictureOutputDir } = data
+    fs.mkdirSync(pictureOutputDir, { recursive: true })
+    let xystring = []
+    extraCut.forEach(v => v.picString.replace(/{[^}]*}/g, s => xystring.push(s)));
+    let xy_withindex = xystring.map((v, i) => [JSON.parse(v.replace(/'/g, '"')), i])
+    let picConfigs = collectPicConfigs(data)
+    let prefixLength = String(xy_withindex.length).length
+    let infos = []
+    let submitOne = (xy_i) => {
+        let [xy, i] = xy_i
+        let { x, y } = xy
+        let imageGroup = 1
+        let { A, B, C, D, E, F, width, height, row, col, files } = picConfigs[imageGroup - 1]
+        let [m, n, p, q] = getMNPQFromXY(x, y, A, B, C, D, E, F, width, height)
+        let mnpqwh = extendMNPQ(m, n, p, q, width, height, cutPixelSize, cutPixelSize)
+        let abinfo = { mnpqwh, imageGroup }
+
+        let outputPrefix = ('000000000000000000000000' + i).slice(-prefixLength)
+
+        let imgI = mntoi(m, n, row, col)
+        let img = files[imgI]
+        infos.push({ x, y, imageGroup, m, n, p, q, mnpqwh, imgI, img, outputPrefix })
+        return new Promise(res => extractOneAB(abinfo, outputPrefix, pictureOutputDir, picConfigs, res))
+    }
+    let mainProcess = async () => {
+        let total = xy_withindex.length
+        let t1 = new Date();
+        while (xy_withindex.length > 0) {
+            let task = xy_withindex.splice(0, cutParallel)
+            console.log(`process ${task[0][1]}~${task.slice(-1)[0][1]} of ${total}`);
+            await Promise.all(task.map(submitOne))
+        }
+        let t2 = new Date();
+        console.log(`time: ${(t2 - t1) / 1000}s`);
+    }
+    mainProcess()
+    return 'submitted: ' + xystring.length
+}
+exports.extraCutProcess = extraCutProcess

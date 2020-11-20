@@ -12,14 +12,19 @@ prog
         '>右键点从GDS提取AB信息' BGNL
         '图片分支(暂时无效,锁定为1)' BGNL switchPosition=switchPositionBlock
         '切片导出路径' pictureOutputDir=NormalString BGNL
-        '切图像素尺寸(暂时填200)' cutPixelSize=Number BGNL
+        '切图像素尺寸' cutPixelSize=Number BGNL
         '切图并行数(填1.5*cpu核数取整)' cutParallel=Number BGNL
         '>右键点从图片切出AB' BGNL
-        '切图展示尺寸(暂时填140)' viewPixelSize=Number BGNL
+        '切图展示尺寸' viewPixelSize=Number '行数' viewRow=Number '列数' viewCol=Number BGNL
         '>右键点人工检查判断AB' BGNL
         '>右键点生成解决方案' BGNL
+        '额外切出以下坐标的图片' BGNL 
+        '尺寸' extraCutPixelSize=Number '路径' extraCutPictureOutputDir=NormalString BGNL
+        extraCut=extraCutBlock+ 
+        '>右键点额外切出图片' BGNL
 /* prog
-menu:[['test','window.testFunction?testFunction(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['加载配置','window.loadConfig?loadConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],['从GDS提取AB信息','window.extractABFromGDS?extractABFromGDS(block):0'],['从图片切出AB','window.extractMainProcess?extractMainProcess(block):0'],['人工检查判断AB','window.openHumanCheck?openHumanCheck(block):0'],['生成解决方案','window.generateSolution?generateSolution(block):0'],]
+menu:[['test','window.testFunction?testFunction(block):0'],['保存配置','window.saveConfig?saveConfig(block):0'],['加载配置','window.loadConfig?loadConfig(block):0'],['计算图片信息','window.calculateImageInformation?calculateImageInformation(block):0'],['从GDS提取AB信息','window.extractABFromGDS?extractABFromGDS(block):0'],['从图片切出AB','window.extractMainProcess?extractMainProcess(block):0'],['人工检查判断AB','window.openHumanCheck?openHumanCheck(block):0'],['生成解决方案','window.generateSolution?generateSolution(block):0'],['额外切出图片','window.extraCut?extraCut(block):0'],]
+defaultMap:{workDir:'..\\demo1',gdsPath:'..\\xxx.gds',pictureOutputDir:'..\\cut1',cutPixelSize:200,viewPixelSize:140,viewRow:5,viewCol:10,extraCutPixelSize:600,extraCutPictureOutputDir:'..\\cut2'}
 */
     ;
 
@@ -66,6 +71,12 @@ switchPositionAction
     # returnAction
     ;
 
+extraCutBlock
+    :   '会切出所有大括号框住的x,y, 不需要angle' BGNL
+        '尺寸不能超过原始图像切片的短边' BGNL
+        picString=PicString_Multi
+    ;
+
 statExprSplit : '=== statement ^ === expression v ===' ;
 
 conditionExpr
@@ -79,6 +90,7 @@ default : ['x >= 0']
     ;
 
 NormalString: ('asdsaw'+)*;
+PicString_Multi: ('asdsasw'+)*;
 OP_List:    'and'|'or' ;
 
 Int :   [0-9]+ ;

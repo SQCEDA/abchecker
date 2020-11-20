@@ -30,6 +30,7 @@ function processOneDir(data, workDir, imageInformationBlock, index) {
 
 exports.calculate = function (data) {
     let workDir = data.workDir
+    fs.mkdirSync(workDir, { recursive: true })
     let infos = data.imageInformation.map((imageInformationBlock, index) => {
         processOneDir(data, workDir, imageInformationBlock, index)
     });

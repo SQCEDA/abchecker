@@ -3,8 +3,8 @@ const http = require('http')
 const url = require('url')
 const path = require('path')
 const { calculate } = require('./calculateImageInformation')
-const { extractABFromGDS,generateSolution } = require('./execGDSScripts')
-const { extractMainProcess } = require('./pictureProcessing')
+const { extractABFromGDS, generateSolution } = require('./execGDSScripts')
+const { extractMainProcess, extraCutProcess } = require('./pictureProcessing')
 const { initHumanCheckSetting } = require('./humanCheckBackend')
 
 const { test } = require('./test')
@@ -120,6 +120,14 @@ exports.startServer = function (root, port) {
                 console.log(urlstr, body);
                 let data = JSON.parse(body)
                 let content = generateSolution(data)
+                response.writeHead(200);
+                response.end(content);
+                return
+            }
+            if (urlstr === '/extraCut') {
+                console.log(urlstr, body);
+                let data = JSON.parse(body)
+                let content = extraCutProcess(data)
                 response.writeHead(200);
                 response.end(content);
                 return
