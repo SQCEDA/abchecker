@@ -101,7 +101,7 @@ function generateSolution() {
     let data = g.data
     let ret = xhrPostSync('/generateSolution', JSON.stringify(data))
     console.log(ret);
-    g.data.extraCut[0].picString=ret
+    g.data.extraCut[0].picString = ret
     ConfigJSONFunctions.parse(g.data)
 }
 
@@ -122,6 +122,7 @@ function testFunction(block) {
 
 function humanCheckPageInit() {
 
+    g.timegap = 3000
     g.data = JSON.parse(localStorage.getItem('codeAreaStorage'))
     g.ab = JSON.parse(xhrPostSync('/humanCheckSetting', JSON.stringify(g.data)))
     g.count = g.ab.length
@@ -213,7 +214,7 @@ function goToPage(pid) {
     }
 }
 
-function doneThisPage() {
+function doneThisPage(caller) {
     // update each as done
     for (let i = 0; i < g.pcount; i++) {
         g.progress[g.spic + i] = g.progress[g.spic + i] ?? {}
@@ -224,6 +225,10 @@ function doneThisPage() {
         }
         g.progress[g.spic + i].class = 'normalp'
     }
+    caller.disabled = true
+    setTimeout(() => {
+        caller.disabled = false
+    }, g.timegap)
     goToPage(g.pid + 1)
 }
 
