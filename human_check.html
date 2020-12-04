@@ -66,6 +66,7 @@
             /* transform:rotate(0deg) !important; */
         }
     </style>
+    <style id=imgfilters></style>
 </head>
 
 <body>
@@ -89,6 +90,12 @@
         当前页码: <span id='currentpid'>12</span> / <span id='totalpage'>300</span> <br>
         图片编号: <span id=spic>556</span> ~ <span id=epic>663</span> / <span id='totalpic'>35435</span><br>
         注释: <input id=commentstr type="text"> <br>
+        <div onchange="imgfilters.innerHTML='img.pimg {filter: hue-rotate('+this.children[1].value+'deg) contrast('+this.children[2].value+') brightness('+this.children[3].value+');}'">
+            <span>图片滤镜:(色相,对比度,亮度)</span>
+            <input type="number" style='width:3rem' value='0' onchange="this?.parent?.onchange()">
+            <input type="number" style='width:3rem' value='1' onchange="this?.parent?.onchange()">
+            <input type="number" style='width:3rem' value='1' onchange="this?.parent?.onchange()">
+        </div>
         <input type="button" value="跳转至页码" onclick="goToPage(topid.value)"> <input type="number" name="" id="topid"
             value="11"> <br>
     </div>
