@@ -6,7 +6,7 @@ if 1:
     import pya
     import paintlib
 import json
-from math import atan2,pi,sqrt
+from math import atan2,pi,sqrt,cos,sin
 noguitest=True
 
 if noguitest:
@@ -53,8 +53,21 @@ def generateSolution():
 
     for slayer,slist in [[layer_error,g.errorlist],[layer_warn,g.infolist]]:
         for ab,pv,index in slist:
-            radius = sqrt(width**2+height**2)
-            pts=paintlib.BasicPainter.arc(pya.DPoint(ab['x'],ab['y']),radius,3*4+1,0,360)
+            # this is a temp change v
+            # draw a rectangle instead of circle
+            # need to be change able in gui
+            signwh=[[1,1],[-1,1],[-1,-1],[1,-1]]
+            cx=ab['x']
+            cy=ab['y']
+            angle = ab['angle']
+            wx=width * 0.6 * cos(angle-pi/2)
+            wy=width * 0.6 * sin(angle-pi/2)
+            hx=height * 1.1 * cos(angle)
+            hy=height * 1.1 * sin(angle)
+            pts = [pya.DPoint(cx+wx*ws+hx*hs,cy+wy*ws+hy*hs) for ws,hs in signwh]
+            # radius = sqrt(width**2+height**2)
+            # pts=paintlib.BasicPainter.arc(pya.DPoint(ab['x'],ab['y']),radius,3*4+1,0,360)
+            # this is temp change ^
             hole=pya.DPolygon(pts)
             paintlib.BasicPainter.Draw(top,slayer,hole)
 
