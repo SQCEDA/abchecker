@@ -10,7 +10,7 @@ prog
         'ABWidth' ABWidth=Number BGNL
         'ABHeight' ABHeight=Number BGNL
         '>右键点从GDS提取AB信息' BGNL
-        '图片分支(暂时无效,锁定为1)' BGNL switchPosition=switchPositionBlock
+        '图片分支' BGNL switchPosition=switchPositionBlock
         '切片导出路径' pictureOutputDir=NormalString BGNL
         '切图像素尺寸' cutPixelSize=Number BGNL
         '切图并行数(填1.5*cpu核数取整)' cutParallel=Number BGNL
@@ -69,6 +69,9 @@ switchPositionAction
     # ifAction
     |   '图片' pictureId=Int
     # returnAction
+/* returnAction
+default:[1]
+*/
     ;
 
 extraCutBlock

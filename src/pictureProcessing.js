@@ -189,17 +189,50 @@ function testExtractFirstAB(data) {
 
 function extractMainProcess(data, debug) {
     let testSome = !!debug
-    let { workDir, cutPixelSize, cutParallel, pictureOutputDir } = data
+    let { workDir, cutPixelSize, cutParallel, pictureOutputDir, switchPosition } = data
     fs.mkdirSync(pictureOutputDir, { recursive: true })
     let xyangles = JSON.parse(fs.readFileSync(workDir + '/ab.json', { encoding: 'utf8' }))
     if (testSome) xyangles = xyangles.slice(2548 - 2, 2548 + 2);
     let picConfigs = collectPicConfigs(data)
     let prefixLength = String(xyangles.length).length
     let infos = []
+    let calculateImageGroup = (switchPosition, x, y) => {
+        // return 1
+        let evalExpr = (exprStr, x, y) => {
+            if(/[^xy0-9 +\-*<>=.()&|]/.test(exprStr)) throw "condition expression not support";
+            return eval(exprStr)
+        }
+        let parseConditionBlock = (block) => {
+            if (block.type=='valueConditionExpr') {
+                return evalExpr(block.a, x, y)
+            }
+            if (block.type=='opConditionExpr') {
+                let a=parseConditionBlock(block.a)
+                let b=parseConditionBlock(block.b)
+                return block.op=='and'?a&&b:(block.op=='or'?a||b:true)
+            }
+            return true
+        }
+        let doAction = (block) => {
+            if (block.type=='returnAction') {
+                return block.pictureId
+            }
+            if (block.type=='ifAction') {
+                if (parseConditionBlock(block.condition)){
+                    return doAction(block.trueCase[0])
+                } else {
+                    return doAction(block.falseCase[0])
+
+                }
+            }
+            throw "something wrong happen in block type";
+        }
+        return doAction(switchPosition.switchPositionAction_0[0]);
+    }
     let submitOne = (xyangle_i) => {
         let [xyangle, i] = xyangle_i
         let { x, y, angle } = xyangle
-        let imageGroup = 1
+        let imageGroup = calculateImageGroup(switchPosition, x, y)
         let { A, B, C, D, E, F, width, height, row, col, files } = picConfigs[imageGroup - 1]
         let [m, n, p, q] = getMNPQFromXY(x, y, A, B, C, D, E, F, width, height)
         let mnpqwh = extendMNPQ(m, n, p, q, width, height, cutPixelSize, cutPixelSize)
